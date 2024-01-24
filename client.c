@@ -53,7 +53,7 @@ PROCESS_THREAD(main_process, ev, data)
 			axes[0] = accm_read_axis(X_AXIS);
 			axes[1] = accm_read_axis(Y_AXIS);
 			axes[2] = accm_read_axis(Z_AXIS);
-			printf("x: %d y: %d z: %d\n", axes[X], axes[Y], axes[Z]);
+			printf("x: %d y: %d z: %d\n", axes[0], axes[1], axes[2]);
 
 			memcpy(nullnet_buf, &axes, sizeof(axes));
 			nullnet_len = sizeof(axes);
