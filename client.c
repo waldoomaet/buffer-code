@@ -8,6 +8,7 @@
 #include "net/nullnet/nullnet.h"
 
 #define ACCM_READ_INTERVAL CLOCK_SECOND / 100
+#define MOVEMENT_ERROR 10
 
 // enum Axes
 // {
@@ -30,12 +31,13 @@ static void recv(const void *data, uint16_t len,
 	int count = 0;
 	while (count < len)
 	{
-		printf("%d", *(int16_t*)data);
+		printf("%d", *(int16_t *)data);
 		count++;
 	}
 	printf(" \n");
 }
 
+static int16_t x_prev, y_prev, z_prev = 0;
 static struct etimer et;
 
 PROCESS_THREAD(main_process, ev, data)
@@ -53,12 +55,22 @@ PROCESS_THREAD(main_process, ev, data)
 			axes[0] = accm_read_axis(X_AXIS);
 			axes[1] = accm_read_axis(Y_AXIS);
 			axes[2] = accm_read_axis(Z_AXIS);
-			printf("x: %d y: %d z: %d\n", axes[0], axes[1], axes[2]);
+			printf("x: %d y: %d z: %d...", axes[0], axes[1], axes[2]);
+			if (abs(axes[0] - x_prev) > MOVEMENT_ERROR ||
+				abs(axes[1] - y_prev) > MOVEMENT_ERROR ||
+				abs(axes[2] - z_prev) > MOVEMENT_ERROR)
+			{
+				memcpy(nullnet_buf, &axes, sizeof(axes));
+				nullnet_len = sizeof(axes);
+				printf(" Movement! Sending...");
+				NETSTACK_NETWORK.output(NULL);
+			}
 
-			memcpy(nullnet_buf, &axes, sizeof(axes));
-			nullnet_len = sizeof(axes);
+			x_prev = axes[0];
+			y_prev = axes[1];
+			z_prev = axes[2];
 
-			NETSTACK_NETWORK.output(NULL);
+			printf(" \n");
 
 			etimer_set(&et, ACCM_READ_INTERVAL);
 			PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
