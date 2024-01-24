@@ -43,9 +43,9 @@ static struct etimer et;
 PROCESS_THREAD(main_process, ev, data)
 {
 	static int16_t axes[3];
-	static int16_t x_prev = 0;
-	static int16_t y_prev = 0;
-	static int16_t z_prev = 0;
+	int16_t x_prev = 0;
+	int16_t y_prev = 0;
+	int16_t z_prev = 0;
 
 	nullnet_buf = &axes;
 	nullnet_len = sizeof(axes);
