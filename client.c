@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 #include "contiki.h"
 #include "dev/adxl345.h"
 #include "dev/button-sensor.h"
@@ -70,7 +71,7 @@ PROCESS_THREAD(main_process, ev, data)
 			y_prev = axes[1];
 			z_prev = axes[2];
 
-			printf(" \n");
+			printf(" \n");	
 
 			etimer_set(&et, ACCM_READ_INTERVAL);
 			PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
