@@ -29,12 +29,12 @@ static void recv(const void *data, uint16_t len,
   /* for example, 0b10 is 2 */
   leds_off(LEDS_ALL);
   leds_on(count & 0b1111);
-  
+
   printf("Basestation got something: ");
   int count = 0;
   while (count < len)
   {
-    printf("%d", *(int *)(data + count));
+    printf("%d ", *(int *)(data + count));
     count++;
   }
   printf(" \n");
