@@ -9,7 +9,7 @@
 
 #define ACCM_READ_INTERVAL CLOCK_SECOND / 100
 
-enum Level
+enum Axes
 {
 	X,
 	Y,
