@@ -5,13 +5,13 @@
 #include "net/netstack.h"
 #include "net/nullnet/nullnet.h"
 
-#define STILL_INTERVAL CLOCK_SECOND
+#define STILL_INTERVAL CLOCK_SECOND * 5
 
 PROCESS(basestation_process, "Clicker basestation");
 AUTOSTART_PROCESSES(&basestation_process);
 
-static struct timer t;
-timer_set(&t, STILL_INTERVAL);
+static struct stimer st;
+timer_set(&st, STILL_INTERVAL);
 
 static void recv(const void *data, uint16_t len,
                  const linkaddr_t *src, const linkaddr_t *dest)
@@ -28,7 +28,7 @@ static void recv(const void *data, uint16_t len,
   }
   printf(" \n");
 
-  timer_restart(&t);
+  timer_restart(&st);
 }
 
 /* Our main process. */
@@ -38,10 +38,10 @@ PROCESS_THREAD(basestation_process, ev, data)
 
   nullnet_set_input_callback(recv);
 
-  if (timer_expired(&t))
+  if (timer_expired(&st))
   {
     leds_off(LEDS_ALL);
-    timer_restart(&t);
+    timer_restart(&st);
   }
 
   PROCESS_END();
