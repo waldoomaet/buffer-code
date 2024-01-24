@@ -5,39 +5,31 @@
 #include "net/netstack.h"
 #include "net/nullnet/nullnet.h"
 
-/* Declare our "main" process, the basestation_process */
+#define STILL_INTERVAL CLOCK_SECOND * 5
+
 PROCESS(basestation_process, "Clicker basestation");
-/* The basestation process should be started automatically when
- * the node has booted. */
 AUTOSTART_PROCESSES(&basestation_process);
 
-/* Holds the number of packets received. */
-static int count = 0;
+static struct timer t;
+timer_set(&t, STILL_INTERVAL);
 
-/* Callback function for received packets.
- *
- * Whenever this node receives a packet for its broadcast handle,
- * this function will be called.
- *
- * As the client does not need to receive, the function does not do anything
- */
 static void recv(const void *data, uint16_t len,
                  const linkaddr_t *src, const linkaddr_t *dest)
 {
-  count++;
-  /* 0bxxxxx allows us to write binary values */
-  /* for example, 0b10 is 2 */
   leds_off(LEDS_ALL);
-  leds_on(count & 0b1111);
+  leds_on(0b1111);
 
   printf("Basestation got something: ");
-  int count = 0;
-  while (count < len)
+  int len_count = 0;
+  while (len_count < len)
   {
-    printf("%d ", *(int16_t *)(data + count));
-    count+=2;
+    printf("%d ", *(int16_t *)(data + len_count));
+    len_count += 2;
   }
   printf(" \n");
+
+  timer_restart(&t);
+  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 }
 
 /* Our main process. */
@@ -45,8 +37,13 @@ PROCESS_THREAD(basestation_process, ev, data)
 {
   PROCESS_BEGIN();
 
-  /* Initialize NullNet */
   nullnet_set_input_callback(recv);
+
+  if (timer_expired(&t))
+  {
+    leds_off(LEDS_ALL);
+    timer_restart(&t);
+  }
 
   PROCESS_END();
 }
