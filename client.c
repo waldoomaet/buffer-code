@@ -17,7 +17,7 @@ enum Level
 };
 
 /* Declare our "main" process, the client process*/
-PROCESS(main, "main");
+PROCESS(main_process, "main process");
 
 /* The client process should be started automatically when
  * the node has booted. */
@@ -30,7 +30,7 @@ static void recv(const void *data, uint16_t len,
 	int count = 0;
 	while (count < len)
 	{
-		printf("%d", *data);
+		printf("%d", *(int*)data);
 		count++;
 	}
 	printf('\n');
@@ -38,7 +38,7 @@ static void recv(const void *data, uint16_t len,
 
 static struct etimer et;
 
-PROCESS_THREAD(main, ev, data)
+PROCESS_THREAD(main_process, ev, data)
 {
 	static int16_t axes[3];
 
