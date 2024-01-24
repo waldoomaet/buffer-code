@@ -40,7 +40,7 @@ PROCESS_THREAD(main_process, ev, data)
 	// int16_t y_prev = 0;
 	// int16_t z_prev = 0;
 
-	nullnet_buf = &axes;
+	nullnet_buf = (uint8_t *)&axes;
 	nullnet_len = sizeof(axes);
 	nullnet_set_input_callback(recv);
 
