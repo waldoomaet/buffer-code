@@ -38,12 +38,12 @@ static void recv(const void *data, uint16_t len,
 	printf(" \n");
 }
 
-static int16_t x_prev, y_prev, z_prev = 0;
 static struct etimer et;
 
 PROCESS_THREAD(main_process, ev, data)
 {
 	static int16_t axes[3];
+	static int16_t x_prev, y_prev, z_prev = 0;
 
 	nullnet_buf = (int16_t *)&axes;
 	nullnet_len = sizeof(axes);
