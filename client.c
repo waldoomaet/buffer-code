@@ -9,12 +9,12 @@
 
 #define ACCM_READ_INTERVAL CLOCK_SECOND / 100
 
-enum Axes
-{
-	X,
-	Y,
-	Z
-};
+// enum Axes
+// {
+// 	X,
+// 	Y,
+// 	Z
+// };
 
 /* Declare our "main" process, the client process*/
 PROCESS(main_process, "main process");
@@ -50,9 +50,9 @@ PROCESS_THREAD(main_process, ev, data)
 	{
 		while (1)
 		{
-			axes[X] = accm_read_axis(X_AXIS);
-			axes[Y] = accm_read_axis(Y_AXIS);
-			axes[Z] = accm_read_axis(Z_AXIS);
+			axes[0] = accm_read_axis(X_AXIS);
+			axes[1] = accm_read_axis(Y_AXIS);
+			axes[2] = accm_read_axis(Z_AXIS);
 			printf("x: %d y: %d z: %d\n", axes[X], axes[Y], axes[Z]);
 
 			memcpy(nullnet_buf, &axes, sizeof(axes));
