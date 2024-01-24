@@ -36,9 +36,7 @@ static struct etimer et;
 PROCESS_THREAD(main_process, ev, data)
 {
 	static int16_t axes[3];
-	// int16_t x_prev = 0;
-	// int16_t y_prev = 0;
-	// int16_t z_prev = 0;
+	static int16_t x_prev, y_prev, z_prev = 0;
 
 	nullnet_buf = (uint8_t *)&axes;
 	nullnet_len = sizeof(axes);
@@ -52,21 +50,19 @@ PROCESS_THREAD(main_process, ev, data)
 			axes[1] = accm_read_axis(Y_AXIS);
 			axes[2] = accm_read_axis(Z_AXIS);
 			printf("x: %d y: %d z: %d...", axes[0], axes[1], axes[2]);
-			// if (abs(axes[0] - x_prev) > MOVEMENT_ERROR ||
-			// 	abs(axes[1] - y_prev) > MOVEMENT_ERROR ||
-			// 	abs(axes[2] - z_prev) > MOVEMENT_ERROR)
-			// {
+			if (abs(axes[0] - x_prev) > MOVEMENT_ERROR ||
+				abs(axes[1] - y_prev) > MOVEMENT_ERROR ||
+				abs(axes[2] - z_prev) > MOVEMENT_ERROR)
+			{
+				memcpy(nullnet_buf, &axes, sizeof(axes));
+				nullnet_len = sizeof(axes);
+				printf(" Movement! Sending...");
+				NETSTACK_NETWORK.output(NULL);
+			}
 
-			// }
-
-			memcpy(nullnet_buf, &axes, sizeof(axes));
-			nullnet_len = sizeof(axes);
-			printf(" Movement! Sending...");
-			NETSTACK_NETWORK.output(NULL);
-
-			// x_prev = axes[0];
-			// y_prev = axes[1];
-			// z_prev = axes[2];
+			x_prev = axes[0];
+			y_prev = axes[1];
+			z_prev = axes[2];
 
 			printf(" \n");
 
