@@ -21,7 +21,7 @@ PROCESS(main_process, "main process");
 
 /* The client process should be started automatically when
  * the node has booted. */
-AUTOSTART_PROCESSES(&main);
+AUTOSTART_PROCESSES(&main_process);
 
 static void recv(const void *data, uint16_t len,
 				 const linkaddr_t *src, const linkaddr_t *dest)
@@ -33,7 +33,7 @@ static void recv(const void *data, uint16_t len,
 		printf("%d", *(int*)data);
 		count++;
 	}
-	printf('\n');
+	printf(" \n");
 }
 
 static struct etimer et;
