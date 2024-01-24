@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include <math.h>
+#include <stdlib.h>
 #include "contiki.h"
 #include "dev/adxl345.h"
 #include "dev/button-sensor.h"
