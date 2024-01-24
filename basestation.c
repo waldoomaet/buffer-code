@@ -5,7 +5,7 @@
 #include "net/netstack.h"
 #include "net/nullnet/nullnet.h"
 
-#define STILL_INTERVAL CLOCK_SECOND * 5
+#define STILL_INTERVAL CLOCK_SECOND
 
 PROCESS(basestation_process, "Clicker basestation");
 AUTOSTART_PROCESSES(&basestation_process);
