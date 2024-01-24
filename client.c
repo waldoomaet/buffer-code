@@ -36,6 +36,8 @@ static void recv(const void *data, uint16_t len,
 	printf('\n');
 }
 
+static struct etimer et;
+
 PROCESS_THREAD(main, ev, data)
 {
 	static int16_t axes[3];
