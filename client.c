@@ -30,7 +30,7 @@ static void recv(const void *data, uint16_t len,
 	int count = 0;
 	while (count < len)
 	{
-		printf("%d", *(int*)data);
+		printf("%d", *(int16_t*)data);
 		count++;
 	}
 	printf(" \n");
@@ -42,7 +42,7 @@ PROCESS_THREAD(main_process, ev, data)
 {
 	static int16_t axes[3];
 
-	nullnet_buf = (uint8_t *)&axes;
+	nullnet_buf = (int16_t *)&axes;
 	nullnet_len = sizeof(axes);
 	nullnet_set_input_callback(recv);
 
