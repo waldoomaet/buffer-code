@@ -35,7 +35,7 @@ static void recv(const void *data, uint16_t len,
   while (count < len)
   {
     printf("%d ", *(int16_t *)(data + count));
-    count++;
+    count+=2;
   }
   printf(" \n");
 }
