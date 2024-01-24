@@ -29,7 +29,6 @@ static void recv(const void *data, uint16_t len,
   printf(" \n");
 
   timer_restart(&t);
-  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 }
 
 /* Our main process. */
