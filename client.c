@@ -65,14 +65,14 @@ PROCESS_THREAD(accel_comm_proccess, ev, data)
 			axes[0] = accm_read_axis(X_AXIS);
 			axes[1] = accm_read_axis(Y_AXIS);
 			axes[2] = accm_read_axis(Z_AXIS);
-			printf("x: %d y: %d z: %d...", axes[0], axes[1], axes[2]);
+			// printf("x: %d y: %d z: %d...", axes[0], axes[1], axes[2]);
 			if (abs(axes[0] - x_prev) > MOVEMENT_ERROR ||
 				abs(axes[1] - y_prev) > MOVEMENT_ERROR ||
 				abs(axes[2] - z_prev) > MOVEMENT_ERROR)
 			{
 				memcpy(nullnet_buf, &axes, sizeof(axes));
 				nullnet_len = sizeof(axes);
-				printf(" Movement! Sending...");
+				// printf(" Movement! Sending...");
 				NETSTACK_NETWORK.output(NULL);
 			}
 
