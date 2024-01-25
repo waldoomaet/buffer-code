@@ -27,7 +27,7 @@ static void recv(const void *data, uint16_t len,
     len_count += 2;
   }
   printf(" \n");
-  etimer_set(&et, STILL_INTERVAL);
+  etimer_reset(&et);
   process_poll(&timer_process);
 }
 
