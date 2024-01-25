@@ -7,7 +7,7 @@
 
 #define STILL_INTERVAL CLOCK_SECOND * 5
 
-PROCESS(timer_process, "Timer process")
+PROCESS(timer_process, "Timer process");
 PROCESS(basestation_process, "Clicker basestation");
 AUTOSTART_PROCESSES(&basestation_process, &timer_process);
 
