@@ -33,7 +33,7 @@ static void recv(const void *data, uint16_t len,
 PROCESS_THREAD(button_comm_process, ev, data)
 {
 	static int flag = 1;
-	button_hal_button_t *btn;
+	// button_hal_button_t *btn;
 	nullnet_set_input_callback(recv);
 
 	PROCESS_BEGIN();
