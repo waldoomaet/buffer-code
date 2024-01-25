@@ -11,12 +11,10 @@
 #define ACCM_READ_INTERVAL CLOCK_SECOND / 100
 #define MOVEMENT_ERROR 10
 
-/* Declare our "main" process, the client process*/
-PROCESS(main_process, "main process");
+PROCESS(accel_comm_proccess, "accelerometer process");
+PROCESS(button_comm_process, "button process");
 
-/* The client process should be started automatically when
- * the node has booted. */
-AUTOSTART_PROCESSES(&main_process);
+AUTOSTART_PROCESSES(&accel_comm_proccess, &button_comm_process);
 
 static void recv(const void *data, uint16_t len,
 				 const linkaddr_t *src, const linkaddr_t *dest)
@@ -31,10 +29,29 @@ static void recv(const void *data, uint16_t len,
 	printf(" \n");
 }
 
-static struct etimer et;
+const int flag = 1;
 
-PROCESS_THREAD(main_process, ev, data)
+PROCESS_THREAD(button_comm_process, ev, data)
 {
+	button_hal_button_t *btn;
+	nullnet_set_input_callback(recv);
+
+	PROCESS_BEGIN();
+	btn = button_hal_get_by_index(0);
+	while (1)
+	{
+		PROCESS_WAIT_EVENT_UNTIL(ev == button_hal_press_event);
+		memcpy(nullnet_buf, *flag, sizeof(flag));
+		nullnet_len = sizeof(flag);
+		printf("Pushed! Sending...");
+		NETSTACK_NETWORK.output(NULL);
+	}
+	PROCESS_END();
+}
+
+PROCESS_THREAD(accel_comm_proccess, ev, data)
+{
+	static struct etimer et;
 	static int16_t axes[3];
 	static int16_t x_prev, y_prev, z_prev = 0;
 
