@@ -44,9 +44,13 @@ PROCESS_THREAD(timer_process, ev, data)
   etimer_set(&et, STILL_INTERVAL);
   PROCESS_BEGIN();
 
-  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-  leds_off(LEDS_ALL);
-  etimer_reset(&et);
+  while (1)
+  {
+    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+    leds_off(LEDS_ALL);
+    printf("All off!\n");
+    etimer_reset(&et);
+  }
 
   PROCESS_END();
 }
