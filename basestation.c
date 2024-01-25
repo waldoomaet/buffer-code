@@ -12,20 +12,31 @@ PROCESS(timer_process, "Timer process");
 PROCESS(basestation_process, "Clicker basestation");
 AUTOSTART_PROCESSES(&basestation_process, &timer_process);
 
+static int movement = 0;
+static int pushed = 0;
+
 static void recv(const void *data, uint16_t len,
                  const linkaddr_t *src, const linkaddr_t *dest)
 {
-  leds_off(LEDS_ALL);
-  leds_on(0b0001);
-
   printf("Basestation got something: ");
   int len_count = 0;
-  while (len_count < len)
+  if (len > 2)
   {
-    printf("%d ", *(int16_t *)(data + len_count));
-    len_count += 2;
+    while (len_count < len)
+    {
+      printf("%d ", *(int16_t *)(data + len_count));
+      len_count += 2;
+    }
+    printf(" \n");
+    movement = 1;
+    leds_on(0b0001);
   }
-  printf(" \n");
+  else
+  {
+    print("Button pushed!\n");
+    pushed = 1;
+    leds_on(0b0010);
+  }
   process_poll(&timer_process);
 }
 
@@ -47,11 +58,17 @@ PROCESS_THREAD(timer_process, ev, data)
     if (etimer_expired(&et))
     {
       leds_off(LEDS_ALL);
+      movement = 0;
+      pushed = 0;
       printf("Timer expired! Ligths out!\n");
     }
     else
     {
-      printf("Package receiver, do nothing!\n");
+      printf("Package received\n");
+      if (movement && pushed)
+      {
+        leds_on(0b0100);
+      }
     }
     etimer_restart(&et);
   }
