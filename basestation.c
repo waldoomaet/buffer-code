@@ -27,7 +27,7 @@ static void recv(const void *data, uint16_t len,
     len_count += 2;
   }
   printf(" \n");
-  etimer_restart(&et);
+  // etimer_restart(&et);
   process_poll(&timer_process);
 }
 
@@ -46,10 +46,10 @@ PROCESS_THREAD(timer_process, ev, data)
   PROCESS_BEGIN();
   while (1)
   {
-    PROCESS_YIELD_UNTIL(ev == PROCESS_EVENT_POLL);
     printf("Starting timer process. Resetting timer\n");
     etimer_set(&et, STILL_INTERVAL);
-    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+    PROCESS_YIELD_UNTIL(etimer_expired(&et));
+    // PROCESS_WAIT_EVENT_UNTIL();
     leds_off(LEDS_ALL);
     printf("Event in timer process!\n");
   }
