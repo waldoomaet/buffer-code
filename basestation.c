@@ -7,11 +7,11 @@
 
 #define STILL_INTERVAL CLOCK_SECOND * 5
 
-PROCESS(timer_process, "Timer process");
+// PROCESS(timer_process, "Timer process");
 PROCESS(basestation_process, "Clicker basestation");
-AUTOSTART_PROCESSES(&basestation_process, &timer_process);
+AUTOSTART_PROCESSES(&basestation_process);//, &timer_process);
 
-static struct etimer et;
+// static struct etimer et;
 
 static void recv(const void *data, uint16_t len,
                  const linkaddr_t *src, const linkaddr_t *dest)
@@ -27,28 +27,28 @@ static void recv(const void *data, uint16_t len,
     len_count += 2;
   }
   printf(" \n");
-  etimer_reset(&et);
+  // etimer_reset(&et);
 }
 
 PROCESS_THREAD(basestation_process, ev, data)
 {
   PROCESS_BEGIN();
 
-  printf("Basestation thread");
+  // printf("Basestation thread");
   nullnet_set_input_callback(recv);
 
   PROCESS_END();
 }
 
-PROCESS_THREAD(timer_process, ev, data)
-{
-  etimer_set(&et, STILL_INTERVAL);
-  PROCESS_BEGIN();
-  while (1)
-  {
-    printf("Timer! Leds should turn of!\n");
-    leds_off(LEDS_ALL);
-    etimer_reset(&et);
-  }
-  PROCESS_END();
-}
+// PROCESS_THREAD(timer_process, ev, data)
+// {
+//   etimer_set(&et, STILL_INTERVAL);
+//   PROCESS_BEGIN();
+//   while (1)
+//   {
+//     printf("Timer! Leds should turn of!\n");
+//     leds_off(LEDS_ALL);
+//     etimer_reset(&et);
+//   }
+//   PROCESS_END();
+// }
