@@ -9,7 +9,7 @@
 
 PROCESS(timer_process, "Timer process");
 PROCESS(basestation_process, "Clicker basestation");
-AUTOSTART_PROCESSES(&basestation_process);
+AUTOSTART_PROCESSES(&basestation_process, &timer_process);
 
 static struct etimer et;
 
@@ -27,7 +27,6 @@ static void recv(const void *data, uint16_t len,
     len_count += 2;
   }
   printf(" \n");
-  etimer_reset(&et);
   process_poll(&timer_process);
 }
 
@@ -45,14 +44,10 @@ PROCESS_THREAD(timer_process, ev, data)
   // etimer_set(&et, STILL_INTERVAL);
   PROCESS_BEGIN();
   PROCESS_YIELD_UNTIL(ev == PROCESS_EVENT_POLL);
-  while (1)
-  {
-    printf("Starting timer process. Resetting timer");
-    etimer_set(&et, STILL_INTERVAL);
-    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-    // PROCESS_YIELD_UNTIL(ev == PROCESS_EVENT_POLL);
-    printf("Event in timer process!\n");
-  }
-
+  printf("Starting timer process. Resetting timer");
+  etimer_set(&et, STILL_INTERVAL);
+  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+  // PROCESS_YIELD_UNTIL(ev == PROCESS_EVENT_POLL);
+  printf("Event in timer process!\n");
   PROCESS_END();
 }
