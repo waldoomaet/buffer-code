@@ -32,7 +32,7 @@ static void recv(const void *data, uint16_t len,
   }
   else
   {
-    print("Button pushed!\n");
+    printf("Button pushed!\n");
     pushed = 1;
     leds_on(0b0010);
   }
