@@ -51,5 +51,7 @@ PROCESS_THREAD(timer_process, ev, data)
     leds_off(LEDS_ALL);
     etimer_reset(&et);
   }
+  
+  process_poll(&timer_process);
   PROCESS_END();
 }
