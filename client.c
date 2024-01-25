@@ -10,7 +10,7 @@
 #include "dev/button-sensor.h"
 
 #define ACCM_READ_INTERVAL CLOCK_SECOND / 100
-#define MOVEMENT_ERROR 10
+#define MOVEMENT_ERROR 50
 
 PROCESS(accel_comm_proccess, "accelerometer process");
 PROCESS(button_comm_process, "button process");
