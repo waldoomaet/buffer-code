@@ -47,6 +47,7 @@ PROCESS_THREAD(timer_process, ev, data)
 
   while (1)
   {
+    printf("Starting timer process. Resetting timer");
     etimer_set(&et, STILL_INTERVAL);
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
     // PROCESS_YIELD_UNTIL(ev == PROCESS_EVENT_POLL);
