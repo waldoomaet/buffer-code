@@ -80,7 +80,7 @@ PROCESS_THREAD(accel_comm_proccess, ev, data)
 			y_prev = axes[1];
 			z_prev = axes[2];
 
-			printf(" \n");
+			// printf(" \n");
 
 			etimer_set(&et, ACCM_READ_INTERVAL);
 			PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
