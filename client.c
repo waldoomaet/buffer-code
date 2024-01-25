@@ -36,10 +36,10 @@ PROCESS_THREAD(button_comm_process, ev, data)
 	static int flag = 1;
 
 	PROCESS_BEGIN();
-	SENSORS_ACTIVATE(button_sensor);;
+	SENSORS_ACTIVATE(button_sensor);
 	while (1)
 	{
-		PROCESS_WAIT_EVENT_UNTIL(ev == sensors_event && data == &button_sensor);
+		PROCESS_WAIT_EVENT_UNTIL(ev == sensors_event);
 		memcpy(nullnet_buf, &flag, sizeof(flag));
 		nullnet_len = sizeof(flag);
 		printf("Pushed! Sending...");
