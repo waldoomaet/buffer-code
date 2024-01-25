@@ -42,9 +42,11 @@ PROCESS_THREAD(basestation_process, ev, data)
 PROCESS_THREAD(timer_process, ev, data)
 {
   PROCESS_BEGIN();
+  etimer_set(&et, STILL_INTERVAL);
   while (1)
   {
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+    printf("Timer! Leds should turn of!\n");
     leds_off(LEDS_ALL);
     etimer_reset(&et);
   }
