@@ -39,16 +39,17 @@ PROCESS_THREAD(basestation_process, ev, data)
 
 PROCESS_THREAD(timer_process, ev, data)
 {
-  // etimer_set(&et, STILL_INTERVAL);
+  static struct etimer timer;
   PROCESS_BEGIN();
+  etimer_set(&et, STILL_INTERVAL);
   while (1)
   {
-    printf("Starting timer process. Resetting timer\n");
-    etimer_set(&et, STILL_INTERVAL);
-    PROCESS_YIELD_UNTIL(etimer_expired(&et));
-    leds_off(LEDS_ALL);
-    printf("Event in timer process!\n");
+    PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_TIMER || ev == PROCESS_EVENT_POLL);
+    if (etimer_expired(&et))
+    {
+      leds_off(LEDS_ALL);
+    }
+    etimer_restart(&timer);
   }
-
   PROCESS_END();
 }
