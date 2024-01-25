@@ -7,7 +7,7 @@
 #include "dev/leds.h"
 #include "net/netstack.h"
 #include "net/nullnet/nullnet.h"
-#include "dev/button-hal.h"
+#include "dev/button-sensor.h"
 
 #define ACCM_READ_INTERVAL CLOCK_SECOND / 100
 #define MOVEMENT_ERROR 10
@@ -34,21 +34,12 @@ PROCESS_THREAD(button_comm_process, ev, data)
 {
 	nullnet_set_input_callback(recv);
 	static int flag = 1;
-	button_hal_button_t *btn;
-	btn = button_hal_get_by_index(0);
-
-	if (btn)
-	{
-		printf("%s on pin %u with ID=0, Logic=%s, Pull=%s\n",
-			   BUTTON_HAL_GET_DESCRIPTION(btn), btn->pin,
-			   btn->negative_logic ? "Negative" : "Positive",
-			   btn->pull == GPIO_HAL_PIN_CFG_PULL_UP ? "Pull Up" : "Pull Down");
-	}
 
 	PROCESS_BEGIN();
+	SENSORS_ACTIVATE(button_sensor);;
 	while (1)
 	{
-		PROCESS_WAIT_EVENT_UNTIL(ev == button_hal_press_event);
+		PROCESS_WAIT_EVENT_UNTIL(ev == sensors_event && data == &button_sensor);
 		memcpy(nullnet_buf, &flag, sizeof(flag));
 		nullnet_len = sizeof(flag);
 		printf("Pushed! Sending...");
