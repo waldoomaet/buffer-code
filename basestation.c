@@ -33,8 +33,8 @@ static void recv(const void *data, uint16_t len,
 PROCESS_THREAD(basestation_process, ev, data)
 {
   PROCESS_BEGIN();
+
   printf("Basestation thread");
-  etimer_set(&et, STILL_INTERVAL);
   nullnet_set_input_callback(recv);
 
   PROCESS_END();
@@ -42,6 +42,7 @@ PROCESS_THREAD(basestation_process, ev, data)
 
 PROCESS_THREAD(timer_process, ev, data)
 {
+  etimer_set(&et, STILL_INTERVAL);
   PROCESS_BEGIN();
   while (1)
   {
