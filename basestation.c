@@ -17,7 +17,7 @@ static void recv(const void *data, uint16_t len,
                  const linkaddr_t *src, const linkaddr_t *dest)
 {
   leds_off(LEDS_ALL);
-  leds_on(0b1111);
+  leds_on(0b0001);
 
   printf("Basestation got something: ");
   int len_count = 0;
@@ -49,7 +49,7 @@ PROCESS_THREAD(timer_process, ev, data)
     printf("Starting timer process. Resetting timer\n");
     etimer_set(&et, STILL_INTERVAL);
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-    // PROCESS_YIELD_UNTIL(ev == PROCESS_EVENT_POLL);
+    leds_off(LEDS_ALL);
     printf("Event in timer process!\n");
   }
 
