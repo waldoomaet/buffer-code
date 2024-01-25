@@ -32,9 +32,18 @@ static void recv(const void *data, uint16_t len,
 
 PROCESS_THREAD(button_comm_process, ev, data)
 {
-	static int flag = 1;
-	// button_hal_button_t *btn;
 	nullnet_set_input_callback(recv);
+	static int flag = 1;
+	button_hal_button_t *btn;
+	btn = button_hal_get_by_index(0);
+
+	if (btn)
+	{
+		printf("%s on pin %u with ID=0, Logic=%s, Pull=%s\n",
+			   BUTTON_HAL_GET_DESCRIPTION(btn), btn->pin,
+			   btn->negative_logic ? "Negative" : "Positive",
+			   btn->pull == GPIO_HAL_PIN_CFG_PULL_UP ? "Pull Up" : "Pull Down");
+	}
 
 	PROCESS_BEGIN();
 	while (1)
