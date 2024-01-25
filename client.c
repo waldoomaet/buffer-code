@@ -30,15 +30,13 @@ static void recv(const void *data, uint16_t len,
 	printf(" \n");
 }
 
-const int flag = 1;
-
 PROCESS_THREAD(button_comm_process, ev, data)
 {
+	static int flag = 1;
 	button_hal_button_t *btn;
 	nullnet_set_input_callback(recv);
 
 	PROCESS_BEGIN();
-	btn = button_hal_get_by_index(0);
 	while (1)
 	{
 		PROCESS_WAIT_EVENT_UNTIL(ev == button_hal_press_event);
