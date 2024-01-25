@@ -40,7 +40,7 @@ PROCESS_THREAD(button_comm_process, ev, data)
 	while (1)
 	{
 		PROCESS_WAIT_EVENT_UNTIL(ev == button_hal_press_event);
-		memcpy(nullnet_buf, *flag, sizeof(flag));
+		memcpy(nullnet_buf, &flag, sizeof(flag));
 		nullnet_len = sizeof(flag);
 		printf("Pushed! Sending...");
 		NETSTACK_NETWORK.output(NULL);
