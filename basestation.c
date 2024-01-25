@@ -44,7 +44,7 @@ PROCESS_THREAD(timer_process, ev, data)
 {
   // etimer_set(&et, STILL_INTERVAL);
   PROCESS_BEGIN();
-
+  PROCESS_YIELD_UNTIL(ev == PROCESS_EVENT_POLL);
   printf("Event in timer process!\n");
 
   // while (1)
