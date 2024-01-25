@@ -28,30 +28,26 @@ static void recv(const void *data, uint16_t len,
   }
   printf(" \n");
   etimer_reset(&et);
-  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-  printf("Timer! Leds should turn of!\n");
-  leds_off(LEDS_ALL);
-  etimer_reset(&et);
 }
 
 PROCESS_THREAD(basestation_process, ev, data)
 {
   PROCESS_BEGIN();
-
+  printf("Basestation thread");
   etimer_set(&et, STILL_INTERVAL);
   nullnet_set_input_callback(recv);
 
   PROCESS_END();
 }
 
-// PROCESS_THREAD(timer_process, ev, data)
-// {
-//   PROCESS_BEGIN();
-//   while (1)
-//   {
-//     printf("Timer! Leds should turn of!\n");
-//     leds_off(LEDS_ALL);
-//     etimer_reset(&et);
-//   }
-//   PROCESS_END();
-// }
+PROCESS_THREAD(timer_process, ev, data)
+{
+  PROCESS_BEGIN();
+  while (1)
+  {
+    printf("Timer! Leds should turn of!\n");
+    leds_off(LEDS_ALL);
+    etimer_reset(&et);
+  }
+  PROCESS_END();
+}
