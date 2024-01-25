@@ -28,6 +28,7 @@ static void recv(const void *data, uint16_t len,
   }
   printf(" \n");
   etimer_reset(&et);
+  process_poll(&timer_process);
 }
 
 PROCESS_THREAD(basestation_process, ev, data)
