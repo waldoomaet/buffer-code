@@ -50,7 +50,7 @@ PROCESS_THREAD(timer_process, ev, data)
     etimer_set(&et, STILL_INTERVAL);
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
     // PROCESS_YIELD_UNTIL(ev == PROCESS_EVENT_POLL);
-    printf("Event in timer process! Time left: \n", );
+    printf("Event in timer process!\n");
   }
 
   PROCESS_END();
