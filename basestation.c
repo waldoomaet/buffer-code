@@ -4,7 +4,6 @@
 #include "dev/leds.h"
 #include "net/netstack.h"
 #include "net/nullnet/nullnet.h"
-#include "dev/button-hal.h"
 
 #define STILL_INTERVAL CLOCK_SECOND * 5
 

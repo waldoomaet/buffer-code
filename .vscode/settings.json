@@ -7,6 +7,7 @@
         "iterator": "c",
         "vector": "c",
         "stdlib.h": "c",
-        "random": "c"
+        "random": "c",
+        "stdio.h": "c"
     }
 }

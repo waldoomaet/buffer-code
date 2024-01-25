@@ -7,6 +7,7 @@
 #include "dev/leds.h"
 #include "net/netstack.h"
 #include "net/nullnet/nullnet.h"
+#include "dev/button-hal.h"
 
 #define ACCM_READ_INTERVAL CLOCK_SECOND / 100
 #define MOVEMENT_ERROR 10
