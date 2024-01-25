@@ -11,8 +11,6 @@ PROCESS(timer_process, "Timer process");
 PROCESS(basestation_process, "Clicker basestation");
 AUTOSTART_PROCESSES(&basestation_process, &timer_process);
 
-static struct etimer et;
-
 static void recv(const void *data, uint16_t len,
                  const linkaddr_t *src, const linkaddr_t *dest)
 {
@@ -39,7 +37,7 @@ PROCESS_THREAD(basestation_process, ev, data)
 
 PROCESS_THREAD(timer_process, ev, data)
 {
-  static struct etimer timer;
+  static struct etimer et;
   PROCESS_BEGIN();
   etimer_set(&et, STILL_INTERVAL);
   while (1)
@@ -48,8 +46,13 @@ PROCESS_THREAD(timer_process, ev, data)
     if (etimer_expired(&et))
     {
       leds_off(LEDS_ALL);
+      printf("Timer expired! Ligths out!\n");
     }
-    etimer_restart(&timer);
+    else
+    {
+      printf("Package receiver, do nothing!\n");
+    }
+    etimer_restart(&et);
   }
   PROCESS_END();
 }
