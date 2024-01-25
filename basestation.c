@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "contiki.h"
-#include "sys/ctimer.h"
 #include "dev/leds.h"
 #include "net/netstack.h"
 #include "net/nullnet/nullnet.h"
@@ -13,12 +12,6 @@ PROCESS(basestation_process, "Clicker basestation");
 AUTOSTART_PROCESSES(&basestation_process, &timer_process);
 
 static struct etimer et;
-
-static void timer_ellapsed(void *ptr)
-{
-  leds_off(LEDS_ALL);
-  ctimer_reset(&timer);
-}
 
 static void recv(const void *data, uint16_t len,
                  const linkaddr_t *src, const linkaddr_t *dest)
