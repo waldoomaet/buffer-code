@@ -29,17 +29,19 @@ PROCESS_THREAD(node_process, ev, data)
 
   is_coordinator = (node_id == 1);
 
+  if (is_coordinator)
+  {
+    NETSTACK_ROUTING.root_start();
+  }
+
+  NETSTACK_MAC.on();
+
   {
     static struct etimer et;
     /* Print out routing tables every minute */
     etimer_set(&et, CLOCK_SECOND * 4);
     while (1)
     {
-      if (is_coordinator)
-      {
-        NETSTACK_ROUTING.root_start();
-      }
-      NETSTACK_MAC.on();
       int routes_num = uip_ds6_route_num_routes();
       LOG_INFO("Routing entries: %u\n", routes_num);
       uip_ds6_route_t *route = uip_ds6_route_head();
@@ -61,6 +63,16 @@ PROCESS_THREAD(node_process, ev, data)
         leds_off(LEDS_YELLOW);
         leds_off(LEDS_GREEN);
         leds_on(LEDS_RED);
+        while (nbr)
+        {
+          nbr = uip_ds6_nbr_next();
+          if (nbr)
+          {
+            LOG_INFO("Route: ");
+            LOG_INFO_6ADDR(nbr);
+            LOG_INFO("\n");
+          }
+        }
       }
       else
       { // otherwise is an intermediate node
