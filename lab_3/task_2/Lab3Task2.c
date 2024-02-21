@@ -27,15 +27,17 @@ PROCESS_THREAD(node_process, ev, data)
   is_coordinator = 0;
 
   is_coordinator = (node_id == 1);
+  LOG_INFO("Node id: %u\n", node_id);
 
   if (is_coordinator)
   {
     NETSTACK_ROUTING.root_start();
-    LOG_INFO("I'M LITERALLY GOOOOOOOOOD");
+    LOG_INFO("I'M LITERALLY GOOOOOOOOOD\n");
   }
 
+  NETSTACK_MAC.on();
+
   {
-    NETSTACK_MAC.on();
     static struct etimer et;
     /* Print out routing tables every minute */
     etimer_set(&et, CLOCK_SECOND * 4);
