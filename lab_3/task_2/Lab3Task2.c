@@ -13,8 +13,6 @@
 #define LOG_MODULE "App"
 #define LOG_LEVEL LOG_LEVEL_DBG
 
-#define LEDS_BLUE LEDS_YELLOW
-
 /*---------------------------------------------------------------------------*/
 PROCESS(node_process, "RPL Node");
 AUTOSTART_PROCESSES(&node_process);
@@ -49,12 +47,12 @@ PROCESS_THREAD(node_process, ev, data)
       if (is_coordinator) // well... master
       {
         leds_off(LEDS_RED);
-        leds_off(LEDS_BLUE);
+        leds_off(LEDS_YELLOW);
         leds_on(LEDS_GREEN);
       }
       else if (routes_num == 0) // if it has no routes it means that is and endpoint
       {
-        leds_off(LEDS_BLUE);
+        leds_off(LEDS_YELLOW);
         leds_off(LEDS_GREEN);
         leds_on(LEDS_RED);
       }
@@ -63,7 +61,7 @@ PROCESS_THREAD(node_process, ev, data)
       }
       else
       { // otherwise is an intermediate node
-        leds_off(LEDS_BLUE);
+        leds_off(LEDS_YELLOW);
         leds_off(LEDS_RED);
         leds_on(LEDS_GREEN);
       }
