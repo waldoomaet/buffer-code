@@ -65,7 +65,7 @@ PROCESS_THREAD(node_process, ev, data)
         leds_on(LEDS_RED);
         while (nbr)
         {
-          nbr = uip_ds6_nbr_next();
+          nbr = uip_ds6_nbr_next(nbr);
           if (nbr)
           {
             LOG_INFO("Route: ");
