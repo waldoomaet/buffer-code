@@ -45,7 +45,14 @@ PROCESS_THREAD(node_process, ev, data)
       int routes_num = uip_ds6_route_num_routes();
       LOG_INFO("Routing entries: %u\n", routes_num);
       uip_ds6_route_t *route = uip_ds6_route_head();
-      if (is_coordinator) // well... master
+      uip_ds6_nbr_t *nbr = uip_ds6_nbr_head();
+      if (nbr == NULL)
+      {
+        leds_off(LEDS_RED);
+        leds_off(LEDS_YELLOW);
+        leds_off(LEDS_GREEN);
+      }
+      else if (is_coordinator) // well... master
       {
         leds_off(LEDS_RED);
         leds_off(LEDS_YELLOW);
@@ -57,15 +64,13 @@ PROCESS_THREAD(node_process, ev, data)
         leds_off(LEDS_GREEN);
         leds_on(LEDS_RED);
       }
-      else if (0) // this if it is outside the network
-      {
-      }
       else
       { // otherwise is an intermediate node
         leds_off(LEDS_GREEN);
         leds_off(LEDS_RED);
         leds_on(LEDS_YELLOW);
       }
+
       while (route)
       {
         LOG_INFO("Route ");
