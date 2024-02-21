@@ -1,4 +1,5 @@
 #include "contiki.h"
+#include <stdlib.h>
 #include "sys/node-id.h"
 #include "sys/log.h"
 #include "net/ipv6/uip-ds6-route.h"
@@ -27,7 +28,7 @@ PROCESS_THREAD(node_process, ev, data)
   is_coordinator = 0;
 
   is_coordinator = (node_id == 1);
-  LOG_INFO("Node id: %u\n", node_id);
+  printf("Node id: %u\n", node_id);
 
   if (is_coordinator)
   {
