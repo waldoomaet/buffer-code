@@ -31,6 +31,7 @@ PROCESS_THREAD(node_process, ev, data)
   if (is_coordinator)
   {
     NETSTACK_ROUTING.root_start();
+    LOG_INFO("I'M LITERALLY GOOOOOOOOOD");
   }
 
   NETSTACK_MAC.on();
