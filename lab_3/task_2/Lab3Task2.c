@@ -20,7 +20,7 @@ AUTOSTART_PROCESSES(&node_process);
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(node_process, ev, data)
 {
-  int is_coordinator;
+  static int is_coordinator;
 
   PROCESS_BEGIN();
 
