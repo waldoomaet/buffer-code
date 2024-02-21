@@ -69,7 +69,7 @@ PROCESS_THREAD(node_process, ev, data)
           if (nbr)
           {
             LOG_INFO("Route: ");
-            LOG_INFO_6ADDR(nbr);
+            LOG_INFO_6ADDR(nbr->ipaddr);
             LOG_INFO("\n");
           }
         }
