@@ -34,9 +34,8 @@ PROCESS_THREAD(node_process, ev, data)
     LOG_INFO("I'M LITERALLY GOOOOOOOOOD");
   }
 
-  NETSTACK_MAC.on();
-
   {
+    NETSTACK_MAC.on();
     static struct etimer et;
     /* Print out routing tables every minute */
     etimer_set(&et, CLOCK_SECOND * 4);
