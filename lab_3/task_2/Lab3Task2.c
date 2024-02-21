@@ -28,12 +28,10 @@ PROCESS_THREAD(node_process, ev, data)
   is_coordinator = 0;
 
   is_coordinator = (node_id == 1);
-  printf("Node id: %u\n", node_id);
 
   if (is_coordinator)
   {
     NETSTACK_ROUTING.root_start();
-    LOG_INFO("I'M LITERALLY GOOOOOOOOOD\n");
   }
 
   NETSTACK_MAC.on();
@@ -64,9 +62,9 @@ PROCESS_THREAD(node_process, ev, data)
       }
       else
       { // otherwise is an intermediate node
-        leds_off(LEDS_YELLOW);
+        leds_off(LEDS_GREEN);
         leds_off(LEDS_RED);
-        leds_on(LEDS_GREEN);
+        leds_on(LEDS_YELLOW);
       }
       while (route)
       {
