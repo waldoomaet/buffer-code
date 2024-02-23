@@ -63,16 +63,16 @@ PROCESS_THREAD(node_process, ev, data)
         leds_off(LEDS_YELLOW);
         leds_off(LEDS_GREEN);
         leds_on(LEDS_RED);
-        while (nbr)
-        {
-          nbr = uip_ds6_nbr_next(nbr);
-          if (nbr)
-          {
-            LOG_INFO("Route: ");
-            LOG_INFO_6ADDR(nbr->ipaddr);
-            LOG_INFO("\n");
-          }
-        }
+        // while (nbr)
+        // {
+        //   nbr = uip_ds6_nbr_next(nbr);
+        //   if (nbr)
+        //   {
+        //     LOG_INFO("Route: ");
+        //     LOG_INFO_6ADDR(nbr->ipaddr);
+        //     LOG_INFO("\n");
+        //   }
+        // }
       }
       else
       { // otherwise is an intermediate node
